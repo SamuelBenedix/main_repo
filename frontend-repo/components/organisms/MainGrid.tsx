@@ -19,7 +19,6 @@ export default function MainGrid(props: Props) {
   const { loading, error } = useSelector(
     (state: RootState) => state.user as { loading: boolean; error: string }
   );
-  console.log('MainGrid props', props.data);
 
   return (
     <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
@@ -34,7 +33,7 @@ export default function MainGrid(props: Props) {
         {loading ? 'Loading...' : props.text}
       </Button>
       <Grid container spacing={2} columns={12}>
-        {error && <Typography>{error}</Typography>}
+        {error && <Typography color="danger">{error}</Typography>}
         <Grid size={{ xs: 12, lg: 12 }}>
           <CustomizedDataGrid
             data={props.data || []}

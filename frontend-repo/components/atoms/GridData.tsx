@@ -20,9 +20,7 @@ export const columns: GridColDef[] = [
     headerName: 'Recently Active',
     flex: 1,
     minWidth: 80,
-    valueFormatter: (params: { _seconds: string; value: string }) =>
-      params?._seconds
-        ? dayjs(params?._seconds).format('dddd, DD/MM/YYYY HH:mm')
-        : dayjs(params?.value).format('dddd, DD/MM/YYYY HH:mm'),
+    valueFormatter: (params: string) =>
+      dayjs(params).format('dddd, DD/MM/YYYY HH:mm'),
   },
 ];

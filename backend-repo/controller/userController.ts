@@ -4,7 +4,9 @@ import { db } from '../config/firebaseConfig';
 // GET /api/users
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
  try {
-  const snapshot = await db.collection('users').get();
+  const snapshot = await db.collection('users')
+   .orderBy('score', 'desc').get()
+
   const users = snapshot.docs.map(doc => ({
    id: doc.id,
    ...doc.data(),
@@ -21,8 +23,18 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
 // POST /api/users
 export const createUser = async (req: Request, res: Response): Promise<void> => {
  try {
+
   const userData = req.body;
-  const userRef = await db.collection('users').add(userData);
+  const recentlyActiveTimestamp = new Date(userData.recentlyActive).getTime() / 1000; // seconds
+  const score =
+   userData.totalAverageWeightRatings * 1000 +
+   userData.numberOfRents * 10 +
+   recentlyActiveTimestamp / 100000;
+
+  const userRef = await db.collection('users').add({
+   ...userData,
+   score: score
+  });
 
   res.status(201).json({
    message: 'User created successfully',
@@ -60,9 +72,18 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 export const updateUser = async (req: Request, res: Response): Promise<void> => {
  try {
   const uid = req.params.id;
-  const data = req.body;
+  const userData = req.body;
 
-  const userDoc = await db.collection('users').doc(uid).set(data, { merge: true });
+  const recentlyActiveTimestamp = new Date(userData.recentlyActive).getTime() / 1000; // seconds
+  const score =
+   userData.totalAverageWeightRatings * 1000 +
+   userData.numberOfRents * 10 +
+   recentlyActiveTimestamp / 100000;
+
+  const userDoc = await db.collection('users').doc(uid).set({
+   ...userData,
+   score
+  }, { merge: true });
 
   res.status(200).json({
    message: 'User data updated successfully',

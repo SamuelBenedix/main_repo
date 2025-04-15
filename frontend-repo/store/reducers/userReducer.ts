@@ -20,7 +20,7 @@ const initialState: UserState = {
     name: '',
     numberOfRents: '',
     totalAverageWeightRatings: '',
-    recentlyActive: new Date(),
+    recentlyActive: new Date().toISOString(),
   },
 };
 

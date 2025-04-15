@@ -2,7 +2,7 @@
 import { AppDispatch } from '../store';
 import { FETCH_USER_FAILURE, FETCH_USER_REQUEST, FETCH_USER_SUCCESS, GET_USER_SUCCESS } from '../constant';
 import api from '../../apis/api';
-import { UserTypes } from '../../entities/userInterface';
+import { UserTypesData } from '../../entities/userInterface';
 
 export const fetchUsersRequest = () => ({
  type: FETCH_USER_REQUEST,
@@ -69,7 +69,7 @@ export const createUser = (userData: {
  name: string,
  numberOfRents: string;
  totalAverageWeightRatings: string;
- recentlyActive: Date,
+ recentlyActive: string,
 }) => {
  return async (dispatch: AppDispatch) => {
   dispatch(fetchUsersRequest());
@@ -98,7 +98,7 @@ export const createUser = (userData: {
 };
 
 // Update user by ID
-export const updateUser = (id: string, updatedData: UserTypes) => {
+export const updateUser = (id: string, updatedData: UserTypesData) => {
  return async (dispatch: AppDispatch) => {
   dispatch(fetchUsersRequest());
   const authToken = localStorage.getItem('authToken');

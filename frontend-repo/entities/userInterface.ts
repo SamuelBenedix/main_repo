@@ -3,8 +3,17 @@ export interface UserTypes {
  name: string,
  numberOfRents: string;
  totalAverageWeightRatings: string;
- recentlyActive: Date,
+ recentlyActive: string,
 }
+
+export interface UserTypesData {
+ name: string,
+ numberOfRents: string;
+ totalAverageWeightRatings: string;
+ recentlyActive: string,
+}
+
+
 
 
 export interface UserState {

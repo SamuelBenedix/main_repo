@@ -48,11 +48,10 @@ const DashboardPage = () => {
   const [isEdit, setIsEdit] = React.useState(false);
   const [isOpenModal, setIsOpenModal] = React.useState(false);
   const [data, setData] = React.useState({
-    id: '',
     name: '',
     numberOfRents: '',
     totalAverageWeightRatings: '',
-    recentlyActive: new Date(),
+    recentlyActive: new Date().toISOString(),
   });
 
   React.useEffect(() => {
@@ -72,16 +71,22 @@ const DashboardPage = () => {
     setError('');
     try {
       if (isEdit) {
-        await dispatch(updateUser(userData.id, data));
+        await dispatch(
+          updateUser(userData.id, {
+            name: data.name,
+            numberOfRents: data.numberOfRents,
+            totalAverageWeightRatings: data.totalAverageWeightRatings,
+            recentlyActive: data.recentlyActive,
+          })
+        );
       } else {
         await dispatch(createUser(data));
       }
       setData({
-        id: '',
         name: '',
         numberOfRents: '',
         totalAverageWeightRatings: '',
-        recentlyActive: new Date(),
+        recentlyActive: new Date().toISOString(),
       });
       setIsOpenModal(false);
     } catch (error) {
@@ -92,15 +97,18 @@ const DashboardPage = () => {
 
   React.useEffect(() => {
     if (userData) {
-      setData((prevData) => ({
-        ...prevData,
-        name: userData.name,
-        numberOfRents: userData.numberOfRents,
-        totalAverageWeightRatings: userData.totalAverageWeightRatings,
-        recentlyActive: new Date(userData.recentlyActive),
-      }));
+      setData({
+        name: userData.name ?? '',
+        numberOfRents: userData.numberOfRents ?? '',
+        totalAverageWeightRatings: userData.totalAverageWeightRatings ?? '',
+        recentlyActive: userData.recentlyActive
+          ? new Date(userData.recentlyActive).toISOString()
+          : new Date().toISOString(),
+      });
     }
   }, [userData]);
+
+  console.log('userData', userData);
 
   return (
     <AppTheme themeComponents={xThemeComponents}>
@@ -133,9 +141,11 @@ const DashboardPage = () => {
                   setIsEdit(false);
                 }}
                 onUpdateModal={(rowData: { id: string }) => {
-                  dispatch(fetchUserById(rowData.id));
-                  setIsOpenModal(true);
-                  setIsEdit(true);
+                  console.log('rowData', rowData);
+                  dispatch(fetchUserById(rowData.id)).then(() => {
+                    setIsOpenModal(true);
+                    setIsEdit(true);
+                  });
                 }}
                 data={Array.isArray(user) ? user : []}
                 status={error}
@@ -159,7 +169,7 @@ const DashboardPage = () => {
                   label="Name"
                   margin="dense"
                   variant="filled"
-                  value={data.name}
+                  value={data.name ?? ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setData({ ...data, name: event.target.value });
                   }}
@@ -170,7 +180,7 @@ const DashboardPage = () => {
                   label="Rents"
                   margin="dense"
                   variant="filled"
-                  value={data.numberOfRents}
+                  value={data.numberOfRents ?? ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     let value = event.target.value;
                     value = value.replace(/[^0-9.]/g, '');
@@ -189,7 +199,7 @@ const DashboardPage = () => {
                   label="Weight"
                   margin="dense"
                   variant="filled"
-                  value={data.totalAverageWeightRatings}
+                  value={data.totalAverageWeightRatings ?? ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     let value = event.target.value;
 
@@ -209,7 +219,9 @@ const DashboardPage = () => {
                   onChange={(newValue) =>
                     setData({
                       ...data,
-                      recentlyActive: newValue ? newValue.toDate() : new Date(),
+                      recentlyActive: newValue
+                        ? newValue.toDate().toISOString()
+                        : new Date().toISOString(),
                     })
                   }
                 />
