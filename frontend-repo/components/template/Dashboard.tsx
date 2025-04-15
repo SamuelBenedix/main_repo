@@ -108,8 +108,6 @@ const DashboardPage = () => {
     }
   }, [userData]);
 
-  console.log('userData', userData);
-
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
@@ -141,7 +139,6 @@ const DashboardPage = () => {
                   setIsEdit(false);
                 }}
                 onUpdateModal={(rowData: { id: string }) => {
-                  console.log('rowData', rowData);
                   dispatch(fetchUserById(rowData.id)).then(() => {
                     setIsOpenModal(true);
                     setIsEdit(true);
@@ -155,12 +152,6 @@ const DashboardPage = () => {
                 title="Create User"
                 open={isOpenModal}
                 onClose={() => setIsOpenModal(false)}
-                onEnter={(node: HTMLElement) => {
-                  node.classList.add('fade-in');
-                }}
-                onExited={(node: HTMLElement) => {
-                  node.classList.remove('fade-in');
-                }}
                 onSubmit={onSubmit}
               >
                 <TextField

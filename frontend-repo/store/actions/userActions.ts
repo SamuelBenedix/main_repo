@@ -81,15 +81,13 @@ export const createUser = (userData: {
   };
 
   try {
-   const response = await api.post('/users', userToCreate, {
+   await api.post('/users', userToCreate, {
     headers: {
      'Authorization': `Bearer ${authToken}`,
      'Content-Type': 'application/json',
     },
    });
 
-   const newUser = response.data;
-   console.log('newUser ', newUser);
    dispatch(fetchAllUsers());
   } catch (error: any) {
    dispatch(fetchUsersFailure(error.message || 'Failed to create user'));
@@ -104,15 +102,13 @@ export const updateUser = (id: string, updatedData: UserTypesData) => {
   const authToken = localStorage.getItem('authToken');
 
   try {
-   const response = await api.put(`/users/${id}`, updatedData, {
+   await api.put(`/users/${id}`, updatedData, {
     headers: {
      'Authorization': `Bearer ${authToken}`,
      'Content-Type': 'application/json',
     },
    });
 
-   const updatedUser = response.data;
-   console.log('updatedUser', updatedUser);
    dispatch(fetchAllUsers());
   } catch (error: any) {
    dispatch(fetchUsersFailure(error.message || 'Failed to update user'));
@@ -127,16 +123,13 @@ export const deleteUser = (id: string) => {
   const authToken = localStorage.getItem('authToken');
 
   try {
-   const response = await api.delete(`/users/${id}`, {
+   await api.delete(`/users/${id}`, {
     headers: {
      'Authorization': `Bearer ${authToken}`,
      'Content-Type': 'application/json',
     },
    });
 
-   console.log('response', response);
-
-   // You can dispatch a specific action here if you need to remove the user from the store.
    dispatch(fetchAllUsers());
   } catch (error: any) {
    dispatch(fetchUsersFailure(error.message || 'Failed to delete user'));

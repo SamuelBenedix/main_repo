@@ -22,8 +22,6 @@ const style = {
 interface ModalProps {
   open?: boolean;
   onClose?: () => void;
-  onEnter?: (node: HTMLElement, isAppearing: boolean) => void;
-  onExited?: (node: HTMLElement, isAppearing: boolean) => void;
   children?: React.ReactNode;
   title?: string;
   onSubmit?: () => void;
@@ -32,8 +30,6 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({
   open: openProp = false,
   onClose,
-  onEnter,
-  onExited,
   children,
   title,
   onSubmit,
@@ -59,16 +55,6 @@ const Modal: React.FC<ModalProps> = ({
       onClose={handleClose}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
-      slotProps={{
-        backdrop: {
-          onEnter: onEnter
-            ? (node: HTMLElement) => onEnter(node, true)
-            : undefined,
-          onExited: onExited
-            ? (node: HTMLElement) => onExited(node, true)
-            : undefined,
-        },
-      }}
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">

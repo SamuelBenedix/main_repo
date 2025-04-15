@@ -418,5 +418,5 @@ export const shadows = [
   'none',
   'var(--template-palette-baseShadow)',
   ...defaultTheme.shadows.slice(2),
-  ...Array(25 - 2).fill('none'), // Ensure the array has exactly 25 elements
+  ...Array(25 - 2).fill('none'),
 ];

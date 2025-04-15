@@ -102,19 +102,12 @@ interface CustomLabelProps {
   expandable?: boolean;
 }
 
-function CustomLabel({
-  color,
-  expandable,
-  children,
-  ...other
-}: CustomLabelProps) {
+function CustomLabel({ color, children, ...other }: CustomLabelProps) {
   const theme = useTheme();
   const colors = {
     blue: theme.palette.primary.main,
     green: theme.palette.success.main,
   };
-
-  console.log('expandable', expandable);
 
   const iconColor = color ? colors[color] : null;
   return (
