@@ -1,0 +1,32 @@
+{
+  "name": "main_repo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "packageManager": "yarn@1.22.22",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint"
+  },
+  "workspaces": [
+    "frontend-repo",
+    "backend-repo",
+    "shared"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamuelBenedix/main_repo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SamuelBenedix/main_repo/issues"
+  },
+  "homepage": "https://github.com/SamuelBenedix/main_repo#readme",
+  "description": "",
+  "devDependencies": {
+    "turbo": "^2.5.0"
+  }
+}

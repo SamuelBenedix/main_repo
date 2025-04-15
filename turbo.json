@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["frontend-repo/.next/**", "backend-repo/dist/**"]
+    },
+    "dev": {
+      "cache": false
+    }
+  }
+}
